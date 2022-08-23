@@ -8,7 +8,7 @@ function Main() {
 
   return (
     <Container >
-      <h1> PART I: The Most unpopular character from Earth C-137 </h1>
+      <h1> PART I: The Most popular characters from Earth C-137 </h1>
       
       {/* Loading */}
       {pending && "loading..."}
