@@ -1,39 +1,52 @@
-import { useEffect, useState} from 'react'
+import { useEffect, useState } from "react";
 
 import _ from "lodash";
 import axios from "axios";
 
 function useCharacterPopularety(url) {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [pending, setPending] = useState(true);
+
+  // Filter by character name
+  const filterCharacters = async ({results}) => {
+    try {
+      const characters = _.filter(
+        results,
+        (o) =>
+          o.name === "Summer Smith" ||
+          o.name === "Rick Sanchez" ||
+          o.name === "Morty Smith" ||
+          o.name === "Beth Smith" ||
+          o.name === "Jerry Smith"
+      );
+
+      setPending(false);
+      return setData(characters);
+
+    } catch (err) {
+      setPending(false);
+      return setError(err.message);
+    }
+  }
 
   useEffect(() => {
     // Get all characters
     const charactersData = async () => {
-      const { data } = await axios(url);
-      return data
+      try {
+        const { data } = await axios(url);
+        await filterCharacters(data); // Get Filtered characters
+
+      } catch (err) {
+        setPending(false);
+        setError(err.message);
+      }
     };
 
-    // Filter by character name
-    (async function mostPopularCharacter () {
-      const { results } = await charactersData();
-      const characters = _.filter(results,
-        (o) => ( 
-          o.name === "Summer Smith" ||
-          o.name === "Rick Sanchez" ||
-          o.name === "Morty Smith"  ||
-          o.name === "Beth Smith"   ||
-          o.name === "Jerry Smith"
-        )
-      );
+    charactersData();
+  }, [url]);
 
-      setData(characters); // Set character data
-    })()
-    .then(res => (res))
-    .catch(err => (console.log(err)))
-    
-  },[url])
-
-  return {data}
+  return { data, error, pending };
 }
 
-export default useCharacterPopularety
+export default useCharacterPopularety;
