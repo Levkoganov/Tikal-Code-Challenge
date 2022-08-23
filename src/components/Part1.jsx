@@ -4,12 +4,20 @@ import useFindMostUnpopularCharacter from "../hooks/useFindMostUnpopularCharacte
 
 function Main() {
   // Custom hook
-  const { data } = useFindMostUnpopularCharacter("/character");
+  const { data, error, pending } = useFindMostUnpopularCharacter("/character");
 
   return (
     <Container >
       <h1> PART I: The Most unpopular character from Earth C-137 </h1>
-      { data ? <Table striped bordered hover >
+      
+      {/* Loading */}
+      {pending && "loading..."}
+
+      {/* Error handling */}
+      {error && error}
+
+      {/* Response */}
+      { data && <Table striped bordered hover >
         <tbody>
           <tr>
             <td>Character name:</td>
@@ -28,7 +36,7 @@ function Main() {
             <td>{data.episode.length}</td>
           </tr>
         </tbody>
-      </Table> : "loading..."}
+      </Table>}
     </Container>
   )
 }

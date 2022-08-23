@@ -4,13 +4,20 @@ import useCharacterPopularety from "../hooks/useCharacterPopularety";
 
 function Part2() {
   // Custom hook
-  const { data } = useCharacterPopularety("character");
+  const { data, error, pending } = useCharacterPopularety("character");
 
   return (
     <Container>
       <h1> PART II: The Most unpopular character from Earth C-137 </h1>
-      { data ? 
-      <Table striped bordered hover >
+
+      {/* Loading */}
+      {pending && "loading..."}
+
+      {/* Error handling */}
+      {error && error}
+
+      {/* Response */}
+      { data && <Table striped bordered hover >
         <thead>
           <tr>
             <th>#</th>
@@ -27,7 +34,7 @@ function Part2() {
             </tr>
           ))}
         </tbody>
-      </Table> : "loading..."}  
+      </Table>} 
     </Container>
   );
 }
