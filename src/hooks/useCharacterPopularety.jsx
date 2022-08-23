@@ -22,11 +22,11 @@ function useCharacterPopularety(url) {
       );
 
       setPending(false);
-      return setData(characters);
+      setData(characters);
 
     } catch (err) {
       setPending(false);
-      return setError(err.message);
+      setError(err.message);
     }
   }
 
@@ -35,7 +35,7 @@ function useCharacterPopularety(url) {
     const charactersData = async () => {
       try {
         const { data } = await axios(url);
-        await filterCharacters(data); // Get Filtered characters
+        filterCharacters(data); // Get Filtered characters
 
       } catch (err) {
         setPending(false);

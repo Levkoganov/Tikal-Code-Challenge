@@ -19,11 +19,11 @@ function useFindMostUnpopularCharacter(url) {
         .value();
   
       setPending(false);
-      return setData(unpopularCharacter);
+      setData(unpopularCharacter);
     
     } catch (err) {
       setPending(false);
-      return setError(err.message);
+      setError(err.message);
     }
   }
 
@@ -32,7 +32,7 @@ function useFindMostUnpopularCharacter(url) {
     const charactersData = async () => { 
       try {
         const { data } = await axios(url);
-        await getMostUnpopularCharacter(data); // Get most unpopular character
+        getMostUnpopularCharacter(data); // Get most unpopular character
 
       } catch (err) {
         setPending(false);
