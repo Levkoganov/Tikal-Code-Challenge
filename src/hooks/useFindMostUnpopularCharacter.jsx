@@ -18,11 +18,9 @@ function useFindMostUnpopularCharacter(url) {
         .first() // Get first item
         .value();
   
-      setTimeout(() => {
-        setPending(false);
-        return setData(unpopularCharacter);
-      }, 1000)
-      
+      setPending(false);
+      return setData(unpopularCharacter);
+    
     } catch (err) {
       setPending(false);
       return setError(err.message);
